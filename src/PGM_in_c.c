@@ -10,11 +10,11 @@
 // Structure for storing the
 // image data
 typedef struct PGMImage {
-  char pgmType[3];
-  unsigned char* data;
-  int width;
-  int height;
-  int maxValue;
+  char tipo_pgm[3];
+  unsigned char* matriz;
+  uint ancho;
+  uint alto;
+  unsigned short int valor_max;
 } PGMImage;
 
 // Function to ignore any comments
@@ -58,11 +58,11 @@ bool openPGM(PGMImage* pgm,
 
   ignoreComments(pgmfile);
   fscanf(pgmfile, "%s",
-      pgm->pgmType);
+      pgm->tipo_pgm);
 
   // Check for correct PGM Binary
   // file type
-  if (strcmp(pgm->pgmType, "P5")) {
+  if (strcmp(pgm->tipo_pgm, "P5")) {
     fprintf(stderr, "Wrong file type!\n");
     exit(EXIT_FAILURE);
   }
@@ -70,28 +70,28 @@ bool openPGM(PGMImage* pgm,
   ignoreComments(pgmfile);
 
   // Read the image dimensions
-  fscanf(pgmfile, "%d %d", &(pgm->width), &(pgm->height));
+  fscanf(pgmfile, "%d %d",(int*) &(pgm->ancho), (int*)&(pgm->alto));
 
   ignoreComments(pgmfile);
 
   // Read maximum gray value
-  fscanf(pgmfile, "%d", &(pgm->maxValue));
+  fscanf(pgmfile, "%d", (int*)&(pgm->valor_max));
   ignoreComments(pgmfile);
 
   // Allocating memory to store
   // img info in defined struct
-  pgm->data = malloc((long unsigned)pgm->height * (long unsigned)pgm ->width *
+  pgm->matriz = malloc((long unsigned)pgm->alto * (long unsigned)pgm ->ancho *
       sizeof(unsigned char));
 
   // Storing the pixel info in
   // the struct
-  if (pgm->pgmType[1] == '5') {
+  if (pgm->tipo_pgm[1] == '5') {
 
     fgetc(pgmfile);
 
       // If memory allocation
       // is failed
-      if (pgm->data == NULL) 
+      if (pgm->matriz == NULL) 
       {
         fprintf(stderr, "malloc failed\n");
         exit(1);
@@ -99,8 +99,8 @@ bool openPGM(PGMImage* pgm,
 
       // Read the gray values and
       // write on allocated memory
-      fread(pgm->data, sizeof(unsigned char),(long unsigned) pgm->width
-          * (long unsigned)pgm ->width, pgmfile);
+      fread(pgm->matriz, sizeof(unsigned char),(long unsigned) pgm->ancho
+          * (long unsigned)pgm ->ancho, pgmfile);
     
   }
 
@@ -129,26 +129,82 @@ void printImageDetails(PGMImage* pgm,
         ext + 1);
 
   printf("PGM File type : %s\n",
-      pgm->pgmType);
+      pgm->tipo_pgm);
 
   // Print type of PGM file, in ascii
   // and binary format
-  if (!strcmp(pgm->pgmType, "P2"))
+  if (!strcmp(pgm->tipo_pgm, "P2"))
     printf("PGM File Format:"
         "ASCII\n");
-  else if (!strcmp(pgm->pgmType,
+  else if (!strcmp(pgm->tipo_pgm,
         "P5"))
     printf("PGM File Format:"
         " Binary\n");
 
   printf("Width of img : %d px\n",
-      pgm->width);
+      pgm->ancho);
   printf("Height of img : %d px\n",
-      pgm->height);
+      pgm->alto);
   printf("Max Gray value : %d\n",
-      pgm->maxValue);
+      pgm->valor_max);
 
   // close file
   fclose(pgmfile);
+}
+
+bool crear_imagen(PGMImage* pgm,
+    const char* filename)
+{
+  // Open the image file in the
+  // 'read binary' mode
+  FILE* pgmfile = fopen(filename, "wb");
+
+  // If file does not exist,
+  // then return
+  if (pgmfile == NULL) {
+    printf("Error al abrir el archivo\n");
+    return false;
+  }
+
+  
+  // Check for correct PGM Binary
+  // file type
+  if (fprintf(pgmfile, "%s\n", pgm->tipo_pgm)<0) {
+    fprintf(stderr, "Error escribiendo tipo!\n");
+    exit(EXIT_FAILURE);
+  }
+
+  // Read the image dimensions
+  if(fprintf(pgmfile, "%d %d\n", (int)(pgm->ancho), (int)(pgm->alto))<0)
+  {
+    fprintf(stderr, "Error escribiendo tamanios!\n");
+    exit(EXIT_FAILURE);
+  }
+
+
+  // Read maximum gray value
+  if(fprintf(pgmfile, "%d\n", (int)(pgm->valor_max))<0)
+  {
+    fprintf(stderr, "Error escribiendo valor maximo!\n");
+    exit(EXIT_FAILURE);
+  }
+
+  // Storing the pixel info in
+  // the struct
+  unsigned char temp,*image;
+  image = pgm->matriz;
+  for (uint i = 0; i < pgm->ancho; i++) {
+    for (uint j = 0; j < pgm->alto; j++) {
+      temp = 255 - image[ i + j ];
+
+      // Writing the gray values in the 2D array to the file
+      fprintf(pgmfile, "%c", temp);
+    }
+  }
+
+  // Close the file
+  fclose(pgmfile);
+
+  return true;
 }
 

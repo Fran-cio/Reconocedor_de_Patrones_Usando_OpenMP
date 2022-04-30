@@ -1,3 +1,5 @@
 bin
 out
 log
+.gdb_history
+./img/mapa_distancia.pgm
