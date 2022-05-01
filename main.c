@@ -6,8 +6,8 @@
 
 int main ()
 {
-  const char* imagen_base= "./img/pibes.pgm";
-  const char* imagen_cortada = "./img/pibes_test.pgm";
+  const char* imagen_base= "./img/DSC_2337_baw.pgm";
+  const char* imagen_cortada = "./img/test.pgm";
 
   PGMImage* str_imagen_base = malloc(sizeof(PGMImage));
   PGMImage* str_imagen_cortada = malloc(sizeof(PGMImage));
@@ -39,7 +39,10 @@ int main ()
     for(uint j=0;j<ancho_base;j++)
       matx_distancia_uint[i][j] = 255;
   }
-  uint valor_max = 0;
+  uint valor_max = 0
+    ,valor_min=99999999
+    ,x_min=0
+    ,y_min=0;
 
   for (uint i= 0; i < (alto_base - alto_cortada) ; i++) 
   {
@@ -60,9 +63,12 @@ int main ()
       }
       if(temp>valor_max) valor_max = temp;
 
-      if(temp==0)
-        printf("\nes igual");
-
+      if(temp<valor_min)
+      {
+        x_min=i;
+        y_min=j;
+        valor_min=temp;
+      }
       printf("\r%d cargado",i*100/(alto_base - alto_cortada));
       matx_distancia_uint[i + (alto_cortada/2)][j + (ancho_cortada/2)] = temp;
     }
@@ -89,18 +95,44 @@ int main ()
   str_imagen_dist->valor_max = 255;
   str_imagen_dist->matriz = matx_distancia_char;
 
-  crear_imagen(str_imagen_dist, "./img/mapa_distancia.pgm");
+  crear_imagen(str_imagen_dist, "./img/imagenes_generadas/mapa_distancia.pgm");
 
-  for(uint i=0;i<str_imagen_dist->alto;i++)
+  for (uint i=x_min; i < (x_min + alto_cortada) ; i++)
   {
-    for(uint j=0;j<str_imagen_dist->ancho;j++)
-    {
-      printf("|%d",str_imagen_dist ->matriz[i][j]);
-    }
-    printf("|\n");
+    matx_base[i][y_min] = 0;
+    matx_base[i][y_min + 1] = 0;
+    matx_base[i][y_min + ancho_cortada] = 0;
+    matx_base[i][y_min + 1 + ancho_cortada] = 0;
+  }
+
+  for(uint j=y_min; j < (y_min + ancho_cortada); j++)
+  {
+    matx_base[x_min][j] = 0;
+    matx_base[x_min + alto_cortada][j] = 0;
+    matx_base[x_min + 1][j] = 0;
+    matx_base[x_min + 1 + alto_cortada][j] = 0;
   }
 
 
+  PGMImage* str_imagen_marcada = malloc(sizeof(PGMImage));
+  str_imagen_marcada->ancho = ancho_base;
+  str_imagen_marcada->alto = alto_base;
+  strcpy(str_imagen_marcada->tipo_pgm, "P5");
+  str_imagen_marcada->valor_max = 255;
+  str_imagen_marcada->matriz = matx_base;
+
+  crear_imagen(str_imagen_marcada , "./img/imagenes_generadas/foto_marcada.pgm");
+
+  // for(uint i=0;i<str_imagen_dist->alto;i++)
+  // {
+  //   for(uint j=0;j<str_imagen_dist->ancho;j++)
+  //   {
+  //     printf("|%d",str_imagen_dist ->matriz[i][j]);
+  //   }
+  //   printf("|\n");
+  // }
+  //
+  //
   free(str_imagen_cortada);
   free(str_imagen_dist);
   free(str_imagen_base);
