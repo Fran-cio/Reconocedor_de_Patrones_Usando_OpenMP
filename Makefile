@@ -11,7 +11,7 @@ PATHtest=./test/
 
 lab4: $(PATHbin)main
 
-$(PATHbin)main: main.c 
+$(PATHbin)main: main.c $(PATHrec)PGM_in_c.c 
 	mkdir -p $(PATHbin) 
 	$(CC) $(CFLAGS) $(OPT) $(GDB) -o $(PATHbin)main main.c
 

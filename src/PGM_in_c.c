@@ -11,7 +11,7 @@
 // image data
 typedef struct PGMImage {
   char tipo_pgm[3];
-  unsigned char* matriz;
+  unsigned char** matriz;
   uint ancho;
   uint alto;
   unsigned short int valor_max;
@@ -78,10 +78,9 @@ bool openPGM(PGMImage* pgm,
   fscanf(pgmfile, "%d", (int*)&(pgm->valor_max));
   ignoreComments(pgmfile);
 
-  // Allocating memory to store
-  // img info in defined struct
-  pgm->matriz = malloc((long unsigned)pgm->alto * (long unsigned)pgm ->ancho *
-      sizeof(unsigned char));
+    // Allocating memory to store
+    // img info in defined struct
+  pgm->matriz = malloc(pgm->alto * sizeof(unsigned char*));
 
   // Storing the pixel info in
   // the struct
@@ -89,9 +88,13 @@ bool openPGM(PGMImage* pgm,
 
     fgetc(pgmfile);
 
+    for (uint i = 0; i < pgm->alto; i++)
+    {
+      pgm->matriz[i] = malloc(pgm->ancho * sizeof(unsigned char));
+
       // If memory allocation
       // is failed
-      if (pgm->matriz == NULL) 
+      if (pgm->matriz[i] == NULL)
       {
         fprintf(stderr, "malloc failed\n");
         exit(1);
@@ -99,9 +102,8 @@ bool openPGM(PGMImage* pgm,
 
       // Read the gray values and
       // write on allocated memory
-      fread(pgm->matriz, sizeof(unsigned char),(long unsigned) pgm->ancho
-          * (long unsigned)pgm ->ancho, pgmfile);
-    
+      fread(pgm->matriz[i], sizeof(unsigned char), pgm->ancho, pgmfile);
+    }
   }
 
   // Close the file
@@ -166,7 +168,7 @@ bool crear_imagen(PGMImage* pgm,
     return false;
   }
 
-  
+
   // Check for correct PGM Binary
   // file type
   if (fprintf(pgmfile, "%s\n", pgm->tipo_pgm)<0) {
@@ -191,11 +193,11 @@ bool crear_imagen(PGMImage* pgm,
 
   // Storing the pixel info in
   // the struct
-  unsigned char temp,*image;
-  image = pgm->matriz;
-  for (uint i = 0; i < pgm->ancho; i++) {
-    for (uint j = 0; j < pgm->alto; j++) {
-      temp = 255 - image[ i + j ];
+  unsigned char temp;
+  // image = pgm->matriz;
+  for (uint i = 0; i < pgm->alto; i++) {
+    for (uint j = 0; j < pgm->ancho; j++) {
+      temp = (unsigned char)(pgm->matriz[i][j]);
 
       // Writing the gray values in the 2D array to the file
       fprintf(pgmfile, "%c", temp);

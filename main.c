@@ -6,8 +6,8 @@
 
 int main ()
 {
-  const char* imagen_base= "./img/DSC_2337_baw.pgm";
-  const char* imagen_cortada = "./img/test.pgm";
+  const char* imagen_base= "./img/pibes.pgm";
+  const char* imagen_cortada = "./img/pibes_test.pgm";
 
   PGMImage* str_imagen_base = malloc(sizeof(PGMImage));
   PGMImage* str_imagen_cortada = malloc(sizeof(PGMImage));
@@ -20,11 +20,8 @@ int main ()
   if (openPGM(str_imagen_cortada, imagen_cortada))
     printImageDetails(str_imagen_cortada, imagen_cortada);
 
-  uint maxsize = str_imagen_cortada -> ancho * str_imagen_cortada ->alto;
-  // uint maxsiz = str_imagen_base ->ancho * str_imagen_base ->alto;
-
-  unsigned char* matx_base,
-           *matx_recortada;
+  unsigned char** matx_base,
+           **matx_recortada;
 
   matx_base = str_imagen_base->matriz;
   matx_recortada = str_imagen_cortada->matriz;
@@ -34,48 +31,82 @@ int main ()
        ancho_cortada = str_imagen_cortada -> ancho,
        alto_cortada = str_imagen_cortada -> alto;
 
-  unsigned char *matx_distancia = malloc(maxsize * sizeof(unsigned char));
-  memset(matx_distancia, 0, maxsize);
+  uint **matx_distancia_uint = malloc(alto_base * sizeof(uint*));
 
-  const uint ponderado = 1;
+  for(uint i=0;i<alto_base;i++)
+  {
+    matx_distancia_uint[i] = malloc(ancho_base * sizeof(uint));
+    for(uint j=0;j<ancho_base;j++)
+      matx_distancia_uint[i][j] = 255;
+  }
+  uint valor_max = 0;
 
-  for (uint i= 0; i < (ancho_base - ancho_cortada) ; i++) 
-    for (uint j=0; j < (alto_base - alto_cortada) ; j++)
+  for (uint i= 0; i < (alto_base - alto_cortada) ; i++) 
+  {
+    for (uint j=0; j < (ancho_base - ancho_cortada) ; j++)
     {
-      uint coord_dist = (i + (ancho_cortada>>1)) + (j + (alto_cortada>>1)) ;
       uint temp = 0;
-      for (uint k=0; k < ancho_cortada ; k++)
-        for (uint l=0; l < alto_cortada ; l++)
+      for (uint k=0; k < alto_cortada ; k++)
+      {
+        uint x = i + k;
+        for (uint l=0; l <  ancho_cortada; l++)
         {
-          uint x = i + k;
           uint y = j + l;
 
-          uint distancia = (matx_base[x + y] - matx_recortada [k + j]); 
+          int distancia = (matx_base[x][y] - matx_recortada[k][l]); 
 
           temp += (unsigned) (distancia * distancia);
         }
+      }
+      if(temp>valor_max) valor_max = temp;
 
-      printf("\r%d cargado",i*100/(ancho_base - ancho_cortada));
-      matx_distancia[coord_dist] = (unsigned char) ((double)((double)temp/ponderado));
+      if(temp==0)
+        printf("\nes igual");
+
+      printf("\r%d cargado",i*100/(alto_base - alto_cortada));
+      matx_distancia_uint[i + (alto_cortada/2)][j + (ancho_cortada/2)] = temp;
     }
-
+  }
   printf("\n");
+
+  unsigned char **matx_distancia_char = malloc(alto_base * sizeof(unsigned char*));
+
+  for (uint i=0; i < alto_base; i++)
+  {
+    matx_distancia_char[i] = malloc(ancho_base * sizeof(unsigned char));
+    for(uint j=0; j < ancho_base; j++)
+      matx_distancia_char[i][j] = 0;
+  }
+
+  for (uint i=alto_cortada/2; i < (alto_base-alto_cortada/2) ; i++)
+    for(uint j=ancho_cortada/2; j < (ancho_base-ancho_cortada/2); j++)
+      matx_distancia_char[i][j] =(unsigned char) ((double)(matx_distancia_uint[i][j])*255/valor_max);
 
   PGMImage* str_imagen_dist = malloc(sizeof(PGMImage));
   str_imagen_dist->ancho = ancho_base;
   str_imagen_dist->alto = alto_base;
   strcpy(str_imagen_dist->tipo_pgm, "P5");
   str_imagen_dist->valor_max = 255;
-  str_imagen_dist->matriz = matx_distancia;
+  str_imagen_dist->matriz = matx_distancia_char;
 
   crear_imagen(str_imagen_dist, "./img/mapa_distancia.pgm");
 
-  for(uint i=1;i<=maxsize;i++)
+  for(uint i=0;i<str_imagen_dist->alto;i++)
   {
-    printf("%d|",str_imagen_dist ->matriz[i-1]);
-    if(i%str_imagen_dist->ancho ==0)
-      printf("\n");
+    for(uint j=0;j<str_imagen_dist->ancho;j++)
+    {
+      printf("|%d",str_imagen_dist ->matriz[i][j]);
+    }
+    printf("|\n");
   }
+
+
+  free(str_imagen_cortada);
+  free(str_imagen_dist);
+  free(str_imagen_base);
+  free(matx_distancia_uint);
+  free(matx_distancia_char);
+
   return 0;
 }
 
