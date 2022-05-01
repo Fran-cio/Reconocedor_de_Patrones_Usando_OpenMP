@@ -100,17 +100,17 @@ int main ()
   for (uint i=x_min; i < (x_min + alto_cortada) ; i++)
   {
     matx_base[i][y_min] = 0;
-    matx_base[i][y_min + 1] = 0;
+    matx_base[i][y_min - 1] = 0;
     matx_base[i][y_min + ancho_cortada] = 0;
-    matx_base[i][y_min + 1 + ancho_cortada] = 0;
+    matx_base[i][y_min - 1 + ancho_cortada] = 0;
   }
 
   for(uint j=y_min; j < (y_min + ancho_cortada); j++)
   {
     matx_base[x_min][j] = 0;
+    matx_base[x_min - 1][j] = 0;
     matx_base[x_min + alto_cortada][j] = 0;
-    matx_base[x_min + 1][j] = 0;
-    matx_base[x_min + 1 + alto_cortada][j] = 0;
+    matx_base[x_min - 1 + alto_cortada][j] = 0;
   }
 
 
