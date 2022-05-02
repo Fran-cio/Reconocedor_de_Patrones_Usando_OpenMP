@@ -72,11 +72,11 @@ bool openPGM(PGMImage* pgm,
   // Read the image dimensions
   fscanf(pgmfile, "%d %d",(int*) &(pgm->ancho), (int*)&(pgm->alto));
 
-  ignoreComments(pgmfile);
+  // ignoreComments(pgmfile);
 
   // Read maximum gray value
   fscanf(pgmfile, "%d", (int*)&(pgm->valor_max));
-  ignoreComments(pgmfile);
+  // ignoreComments(pgmfile);
 
     // Allocating memory to store
     // img info in defined struct

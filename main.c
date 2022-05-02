@@ -6,8 +6,8 @@
 
 int main ()
 {
-  const char* imagen_base= "./img/DSC_2337_baw.pgm";
-  const char* imagen_cortada = "./img/test.pgm";
+  const char* imagen_base= "./img/pibes.pgm";
+  const char* imagen_cortada = "./img/pibes_test.pgm";
 
   PGMImage* str_imagen_base = malloc(sizeof(PGMImage));
   PGMImage* str_imagen_cortada = malloc(sizeof(PGMImage));
@@ -31,22 +31,25 @@ int main ()
        ancho_cortada = str_imagen_cortada -> ancho,
        alto_cortada = str_imagen_cortada -> alto;
 
-  uint **matx_distancia_uint = malloc(alto_base * sizeof(uint*));
+  unsigned char **matx_distancia_char = malloc(alto_base * sizeof(unsigned char*));
 
   for(uint i=0;i<alto_base;i++)
   {
-    matx_distancia_uint[i] = malloc(ancho_base * sizeof(uint));
+    matx_distancia_char[i] = malloc(ancho_base * sizeof(unsigned char));
     for(uint j=0;j<ancho_base;j++)
-      matx_distancia_uint[i][j] = 255;
+      matx_distancia_char[i][j] = 0;
   }
+
   uint valor_max = 0
-    ,valor_min=99999999
+    ,valor_min = 999999999 
     ,x_min=0
     ,y_min=0;
 
-  for (uint i= 0; i < (alto_base - alto_cortada) ; i++) 
+  valor_max = 255 * alto_cortada * ancho_cortada; 
+
+  for (uint i= 0; i <= (alto_base - alto_cortada ) ; i++) 
   {
-    for (uint j=0; j < (ancho_base - ancho_cortada) ; j++)
+    for (uint j=0; j <= (ancho_base - ancho_cortada ) ; j++)
     {
       uint temp = 0;
       for (uint k=0; k < alto_cortada ; k++)
@@ -61,32 +64,26 @@ int main ()
           temp += (unsigned) (distancia * distancia);
         }
       }
-      if(temp>valor_max) valor_max = temp;
 
-      if(temp<valor_min)
+      if(temp == 0)
       {
+        valor_min = 0;
         x_min=i;
         y_min=j;
-        valor_min=temp;
       }
-      printf("\r%d cargado",i*100/(alto_base - alto_cortada));
-      matx_distancia_uint[i + (alto_cortada/2)][j + (ancho_cortada/2)] = temp;
+      printf("\r ---- %.2f%c ----",((float)i*100/(float)(alto_base - alto_cortada)),'%');
+      matx_distancia_char[i + (alto_cortada/2)][j + (ancho_cortada/2)] = 
+        (unsigned char)(temp/valor_max);
     }
   }
   printf("\n");
 
-  unsigned char **matx_distancia_char = malloc(alto_base * sizeof(unsigned char*));
 
-  for (uint i=0; i < alto_base; i++)
+  if(valor_min != 0)
   {
-    matx_distancia_char[i] = malloc(ancho_base * sizeof(unsigned char));
-    for(uint j=0; j < ancho_base; j++)
-      matx_distancia_char[i][j] = 0;
+    fprintf(stderr, "No se encontro patron\n");
+    exit(EXIT_SUCCESS);
   }
-
-  for (uint i=alto_cortada/2; i < (alto_base-alto_cortada/2) ; i++)
-    for(uint j=ancho_cortada/2; j < (ancho_base-ancho_cortada/2); j++)
-      matx_distancia_char[i][j] =(unsigned char) ((double)(matx_distancia_uint[i][j])*255/valor_max);
 
   PGMImage* str_imagen_dist = malloc(sizeof(PGMImage));
   str_imagen_dist->ancho = ancho_base;
@@ -100,7 +97,7 @@ int main ()
   for (uint i=x_min; i < (x_min + alto_cortada) ; i++)
   {
     matx_base[i][y_min] = 0;
-    matx_base[i][y_min - 1] = 0;
+    matx_base[i][y_min + 1] = 0;
     matx_base[i][y_min + ancho_cortada] = 0;
     matx_base[i][y_min - 1 + ancho_cortada] = 0;
   }
@@ -108,8 +105,8 @@ int main ()
   for(uint j=y_min; j < (y_min + ancho_cortada); j++)
   {
     matx_base[x_min][j] = 0;
-    matx_base[x_min - 1][j] = 0;
-    matx_base[x_min + alto_cortada][j] = 0;
+    matx_base[x_min + 1][j] = 0;
+    matx_base[x_min - 2 + alto_cortada][j] = 0;
     matx_base[x_min - 1 + alto_cortada][j] = 0;
   }
 
@@ -136,7 +133,7 @@ int main ()
   free(str_imagen_cortada);
   free(str_imagen_dist);
   free(str_imagen_base);
-  free(matx_distancia_uint);
+  free(str_imagen_marcada);
   free(matx_distancia_char);
 
   return 0;
