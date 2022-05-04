@@ -1,15 +1,14 @@
 // Codigo extraido de : https://www.geeksforgeeks.org/how-to-read-a-pgmb-format-image-in-c/
 // C Program to read a PGMB image
-// and print its parameters
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-// Structure for storing the
 // image data
-typedef struct PGMImage {
+typedef struct PGMImage 
+{
   char tipo_pgm[3];
   unsigned char** matriz;
   uint ancho;
@@ -17,195 +16,130 @@ typedef struct PGMImage {
   unsigned short int valor_max;
 } PGMImage;
 
-// Function to ignore any comments
-// in file
-void ignoreComments(FILE* fp)
+void ignorarcomentarios(FILE* fp)
 {
   int ch;
   char line[100];
 
-  // Ignore any blank lines
-  while ((ch = fgetc(fp)) != EOF
-      && isspace(ch))
-    ;
+  while ((ch = fgetc(fp)) != EOF && isspace(ch));
 
-  // Recursively ignore comments
-  // in a PGM image commented lines
-  // start with a '#'
-  if (ch == '#') {
+  if (ch == '#') 
+  {
     fgets(line, sizeof(line), fp);
-    ignoreComments(fp);
+    ignorarcomentarios(fp);
   }
   else
     fseek(fp, -1, SEEK_CUR);
 }
 
-// Function to open the input a PGM
-// file and process it
-bool openPGM(PGMImage* pgm,
-    const char* filename)
+void abrir_imagen_PGM(PGMImage* pgm, const char* path)
 {
-  // Open the image file in the
-  // 'read binary' mode
-  FILE* pgmfile = fopen(filename, "rb");
+  FILE* archivo_pgm = fopen(path, "rb");
 
-  // If file does not exist,
-  // then return
-  if (pgmfile == NULL) {
-    printf("File does not exist\n");
-    return false;
-  }
-
-  ignoreComments(pgmfile);
-  fscanf(pgmfile, "%s",
-      pgm->tipo_pgm);
-
-  // Check for correct PGM Binary
-  // file type
-  if (strcmp(pgm->tipo_pgm, "P5")) {
-    fprintf(stderr, "Wrong file type!\n");
+  if (archivo_pgm == NULL) {
+    printf("Archivo no encontrado\n");
     exit(EXIT_FAILURE);
   }
 
-  ignoreComments(pgmfile);
+  ignorarcomentarios(archivo_pgm);
+  fscanf(archivo_pgm, "%s", pgm->tipo_pgm);
 
-  // Read the image dimensions
-  fscanf(pgmfile, "%d %d",(int*) &(pgm->ancho), (int*)&(pgm->alto));
+  if (strcmp(pgm->tipo_pgm, "P5")) 
+  {
+    fprintf(stderr, "Formato de archivo erroneo!\n");
+    exit(EXIT_FAILURE);
+  }
 
-  // ignoreComments(pgmfile);
+  ignorarcomentarios(archivo_pgm);
 
-  // Read maximum gray value
-  fscanf(pgmfile, "%d", (int*)&(pgm->valor_max));
-  // ignoreComments(pgmfile);
+  fscanf(archivo_pgm, "%d %d",(int*) &(pgm->ancho), (int*)&(pgm->alto));
 
-    // Allocating memory to store
-    // img info in defined struct
+  fscanf(archivo_pgm, "%d", (int*)&(pgm->valor_max));
   pgm->matriz = malloc(pgm->alto * sizeof(unsigned char*));
 
-  // Storing the pixel info in
-  // the struct
-  if (pgm->tipo_pgm[1] == '5') {
-
-    fgetc(pgmfile);
+  if (pgm->tipo_pgm[1] == '5') 
+  {
+    fgetc(archivo_pgm);
 
     for (uint i = 0; i < pgm->alto; i++)
     {
       pgm->matriz[i] = malloc(pgm->ancho * sizeof(unsigned char));
 
-      // If memory allocation
-      // is failed
       if (pgm->matriz[i] == NULL)
       {
-        fprintf(stderr, "malloc failed\n");
+        fprintf(stderr, "error en el malloc\n");
         exit(1);
       }
 
-      // Read the gray values and
-      // write on allocated memory
-      fread(pgm->matriz[i], sizeof(unsigned char), pgm->ancho, pgmfile);
+      fread(pgm->matriz[i], sizeof(unsigned char), pgm->ancho, archivo_pgm);
     }
   }
 
-  // Close the file
-  fclose(pgmfile);
-
-  return true;
+  fclose(archivo_pgm);
 }
 
-// Function to print the file details
-void printImageDetails(PGMImage* pgm,
-    const char* filename)
+void imprimir_detalles_de_imagen(PGMImage* pgm, const char* ruta)
 {
-  FILE* pgmfile = fopen(filename, "rb");
+  FILE* archivo_pgm = fopen(ruta, "rb");
 
-  // Retrieving the file extension
-  char* ext = strrchr(filename, '.');
+  char* extension = strrchr(ruta, '.');
 
-  if (!ext)
-    printf("No extension found"
-        "in file %s",
-        filename);
+  if (!extension)
+    printf("No se encontro la extension del archivo %s", ruta);
   else
-    printf("File format"
-        " : %s\n",
-        ext + 1);
+    printf("Formato de archivo: %s\n", extension + 1);
 
-  printf("PGM File type : %s\n",
-      pgm->tipo_pgm);
+  printf("Tipo de PGM: %s\n", pgm->tipo_pgm);
 
-  // Print type of PGM file, in ascii
-  // and binary format
   if (!strcmp(pgm->tipo_pgm, "P2"))
-    printf("PGM File Format:"
-        "ASCII\n");
-  else if (!strcmp(pgm->tipo_pgm,
-        "P5"))
-    printf("PGM File Format:"
-        " Binary\n");
+    printf("Formato PGM: ASCII\n");
+  else if (!strcmp(pgm->tipo_pgm, "P5"))
+    printf("Foramto PGM: Binary\n");
 
-  printf("Width of img : %d px\n",
-      pgm->ancho);
-  printf("Height of img : %d px\n",
-      pgm->alto);
-  printf("Max Gray value : %d\n",
-      pgm->valor_max);
+  printf("Ancho de img : %d px\n", pgm->ancho);
+  printf("Alto de img : %d px\n", pgm->alto);
+  printf("Valor maximo de gris: %d\n", pgm->valor_max);
 
-  // close file
-  fclose(pgmfile);
+  fclose(archivo_pgm);
 }
 
-bool crear_imagen(PGMImage* pgm,
-    const char* filename)
+bool crear_imagen(PGMImage* pgm, const char* ruta)
 {
-  // Open the image file in the
-  // 'read binary' mode
-  FILE* pgmfile = fopen(filename, "wb");
+  FILE* archivo_pgm = fopen(ruta, "wb");
 
-  // If file does not exist,
-  // then return
-  if (pgmfile == NULL) {
+  if (archivo_pgm == NULL) {
     printf("Error al abrir el archivo\n");
-    return false;
+    exit(EXIT_FAILURE);
   }
 
-
-  // Check for correct PGM Binary
-  // file type
-  if (fprintf(pgmfile, "%s\n", pgm->tipo_pgm)<0) {
+  if (fprintf(archivo_pgm, "%s\n", pgm->tipo_pgm)<0) {
     fprintf(stderr, "Error escribiendo tipo!\n");
     exit(EXIT_FAILURE);
   }
 
-  // Read the image dimensions
-  if(fprintf(pgmfile, "%d %d\n", (int)(pgm->ancho), (int)(pgm->alto))<0)
+  if(fprintf(archivo_pgm, "%d %d\n", (int)(pgm->ancho), (int)(pgm->alto))<0)
   {
     fprintf(stderr, "Error escribiendo tamanios!\n");
     exit(EXIT_FAILURE);
   }
 
-
-  // Read maximum gray value
-  if(fprintf(pgmfile, "%d\n", (int)(pgm->valor_max))<0)
+  if(fprintf(archivo_pgm, "%d\n", (int)(pgm->valor_max))<0)
   {
     fprintf(stderr, "Error escribiendo valor maximo!\n");
     exit(EXIT_FAILURE);
   }
 
-  // Storing the pixel info in
-  // the struct
   unsigned char temp;
-  // image = pgm->matriz;
+  unsigned char** imagen = pgm->matriz;
   for (uint i = 0; i < pgm->alto; i++) {
     for (uint j = 0; j < pgm->ancho; j++) {
-      temp = (unsigned char)(pgm->matriz[i][j]);
+      temp = (unsigned char)(imagen[i][j]);
 
-      // Writing the gray values in the 2D array to the file
-      fprintf(pgmfile, "%c", temp);
+      fprintf(archivo_pgm, "%c", temp);
     }
   }
 
-  // Close the file
-  fclose(pgmfile);
+  fclose(archivo_pgm);
 
   return true;
 }

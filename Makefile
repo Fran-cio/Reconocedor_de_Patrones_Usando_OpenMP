@@ -1,7 +1,7 @@
 CC=gcc
 GDB=-g
 CFLAGS=-Wall -pedantic -Werror -Wextra -Wconversion -std=gnu11
-OPT=-O0
+OPT=-O3
 PROF=-pg
 PATHbin=./bin/
 PATHrec=./src/
