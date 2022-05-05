@@ -34,8 +34,7 @@ int main (int argc, char *argv[])
 
   if(atoi(argv[3])==0)
   {
-    printf("Ingrese un numero de hilos valido");
-    exit(EXIT_FAILURE);
+    printf("Se asigno numero generico de hilos\n");
   }
 
   omp_set_num_threads(atoi(argv[3]));
@@ -57,10 +56,10 @@ int main (int argc, char *argv[])
   PGMImage* str_imagen_cortada = malloc(sizeof(PGMImage));
 
   abrir_imagen_PGM(str_imagen_base, imagen_base);
-  imprimir_detalles_de_imagen(str_imagen_base, imagen_base);
+  // imprimir_detalles_de_imagen(str_imagen_base, imagen_base);
 
   abrir_imagen_PGM(str_imagen_cortada, imagen_cortada);
-  imprimir_detalles_de_imagen(str_imagen_cortada, imagen_cortada);
+  // imprimir_detalles_de_imagen(str_imagen_cortada, imagen_cortada);
 
   free(imagen_cortada);
   free(imagen_base);
@@ -170,17 +169,19 @@ unsigned char** computar(PGMImage* str_imagen_base, PGMImage* str_imagen_cortada
     }
   }
 
-uint i,j,k,l,temp;
-#pragma omp parallel for private(i, j, k, l, temp) num_threads(num_threads) schedule(dynamic)
-  for (i= 0; i <= (alto_base - alto_cortada ) ; i++) 
+uint i,j,k,l,temp = 0;
+#pragma omp parallel
+{
+#pragma omp for collapse(2) reduction(+:temp) private(i, j, k, l) schedule(dynamic)
+  for (i = 0; i <= (alto_base - alto_cortada ) ; i++) 
   {
-    for (j=0; j <= (ancho_base - ancho_cortada ) ; j++)
+    for (j = 0; j <= (ancho_base - ancho_cortada ) ; j++)
     {
       temp = 0;
-      for (k=0; k < alto_cortada ; k++)
+      for (k = 0; k < alto_cortada ; k++)
       {
         uint x = i + k;
-        for (l=0; l <  ancho_cortada; l++)
+        for (l = 0; l <  ancho_cortada; l++)
         {
           uint y = j + l;
 
@@ -197,11 +198,12 @@ uint i,j,k,l,temp;
         y_min=j;
       }
 
-      printf("\r ---- %.2f%c ----",((float)i*100/(float)(alto_base - alto_cortada)),'%');
+      // printf("\r ---- %.2f%c ----",((float)i*100/(float)(alto_base - alto_cortada)),'%');
       matx_distancia_char[i + (alto_cortada/2)][j + (ancho_cortada/2)] = 
         (unsigned char)(temp/valor_max);
     }
   }
+}
   printf("\n");
 
   if(valor_min != 0)

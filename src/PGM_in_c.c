@@ -63,7 +63,6 @@ void abrir_imagen_PGM(PGMImage* pgm, const char* path)
 #pragma omp parallel 
   {
 #pragma omp for ordered 
- 
     for (uint i = 0; i < pgm->alto; i++)
     {
       pgm->matriz[i] = malloc(pgm->ancho * sizeof(unsigned char));

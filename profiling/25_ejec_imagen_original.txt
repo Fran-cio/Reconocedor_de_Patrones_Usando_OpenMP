@@ -1,0 +1,526 @@
+--------------------------------------------Compilando lab3------------------------------
+make: No se hace nada para 'lab4'.
+------------------------------------------Ejecutando programa----------------------------
+[ 12:40:01 ]
+Ejecucion 1
+
+ Performance counter stats for './bin/main DSC_2337_baw test 1':
+
+         46.267,73 msec task-clock:u              #    0,996 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.910      page-faults:u             #  343,868 /sec
+   202.940.193.976      cycles:u                  #    4,386 GHz
+   785.161.585.026      instructions:u            #    3,87  insn per cycle
+    88.607.609.026      branches:u                #    1,915 G/sec
+        31.123.749      branch-misses:u           #    0,04% of all branches
+
+      46,473482263 seconds time elapsed
+
+      46,169614000 seconds user
+       0,123260000 seconds sys
+
+
+[ 12:40:48 ]
+Ejecucion 2
+
+ Performance counter stats for './bin/main DSC_2337_baw test 2':
+
+         46.244,57 msec task-clock:u              #    0,996 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.911      page-faults:u             #  344,062 /sec
+   203.087.627.541      cycles:u                  #    4,392 GHz
+   785.161.584.999      instructions:u            #    3,87  insn per cycle
+    88.607.608.999      branches:u                #    1,916 G/sec
+        30.987.560      branch-misses:u           #    0,03% of all branches
+
+      46,443966023 seconds time elapsed
+
+      46,149707000 seconds user
+       0,120064000 seconds sys
+
+
+[ 12:41:34 ]
+Ejecucion 3
+
+ Performance counter stats for './bin/main DSC_2337_baw test 3':
+
+         47.273,77 msec task-clock:u              #    1,952 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.942      page-faults:u             #  337,227 /sec
+   203.486.733.259      cycles:u                  #    4,304 GHz
+   786.450.968.801      instructions:u            #    3,86  insn per cycle
+    88.963.340.330      branches:u                #    1,882 G/sec
+        79.550.233      branch-misses:u           #    0,09% of all branches
+
+      24,219638929 seconds time elapsed
+
+      47,171105000 seconds user
+       0,126651000 seconds sys
+
+
+[ 12:41:58 ]
+Ejecucion 4
+
+ Performance counter stats for './bin/main DSC_2337_baw test 4':
+
+         48.815,74 msec task-clock:u              #    2,872 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.925      page-faults:u             #  326,227 /sec
+   208.861.381.063      cycles:u                  #    4,279 GHz
+   786.462.964.637      instructions:u            #    3,77  insn per cycle
+    88.966.744.078      branches:u                #    1,823 G/sec
+        31.431.169      branch-misses:u           #    0,04% of all branches
+
+      16,997389815 seconds time elapsed
+
+      48,717618000 seconds user
+       0,123137000 seconds sys
+
+
+[ 12:42:15 ]
+Ejecucion 5
+
+ Performance counter stats for './bin/main DSC_2337_baw test 5':
+
+         48.943,69 msec task-clock:u              #    3,752 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.970      page-faults:u             #  326,293 /sec
+   209.374.758.896      cycles:u                  #    4,278 GHz
+   786.465.992.016      instructions:u            #    3,76  insn per cycle
+    88.967.595.821      branches:u                #    1,818 G/sec
+        31.747.447      branch-misses:u           #    0,04% of all branches
+
+      13,045029787 seconds time elapsed
+
+      48,850115000 seconds user
+       0,116194000 seconds sys
+
+
+[ 12:42:28 ]
+Ejecucion 6
+
+ Performance counter stats for './bin/main DSC_2337_baw test 6':
+
+         48.956,27 msec task-clock:u              #    3,760 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.970      page-faults:u             #  326,209 /sec
+   209.432.684.148      cycles:u                  #    4,278 GHz
+   786.474.568.859      instructions:u            #    3,76  insn per cycle
+    88.970.046.128      branches:u                #    1,817 G/sec
+        32.101.812      branch-misses:u           #    0,04% of all branches
+
+      13,019780298 seconds time elapsed
+
+      48,851174000 seconds user
+       0,129769000 seconds sys
+
+
+[ 12:42:41 ]
+Ejecucion 7
+
+ Performance counter stats for './bin/main DSC_2337_baw test 7':
+
+         51.133,93 msec task-clock:u              #    4,631 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.955      page-faults:u             #  312,024 /sec
+   211.629.241.970      cycles:u                  #    4,139 GHz
+   786.486.489.022      instructions:u            #    3,72  insn per cycle
+    88.973.444.269      branches:u                #    1,740 G/sec
+        31.772.269      branch-misses:u           #    0,04% of all branches
+
+      11,041602538 seconds time elapsed
+
+      51,029977000 seconds user
+       0,126378000 seconds sys
+
+
+[ 12:42:53 ]
+Ejecucion 8
+
+ Performance counter stats for './bin/main DSC_2337_baw test 8':
+
+         56.529,56 msec task-clock:u              #    5,505 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.962      page-faults:u             #  282,366 /sec
+   212.978.271.586      cycles:u                  #    3,768 GHz
+   786.498.283.658      instructions:u            #    3,69  insn per cycle
+    88.976.809.752      branches:u                #    1,574 G/sec
+        32.645.890      branch-misses:u           #    0,04% of all branches
+
+      10,269681762 seconds time elapsed
+
+      56,401767000 seconds user
+       0,143076000 seconds sys
+
+
+[ 12:43:03 ]
+Ejecucion 9
+
+ Performance counter stats for './bin/main DSC_2337_baw test 9':
+
+         64.572,28 msec task-clock:u              #    6,397 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.958      page-faults:u             #  247,134 /sec
+   241.691.141.338      cycles:u                  #    3,743 GHz
+   786.510.658.872      instructions:u            #    3,25  insn per cycle
+    88.980.343.804      branches:u                #    1,378 G/sec
+        63.853.892      branch-misses:u           #    0,07% of all branches
+
+      10,094357097 seconds time elapsed
+
+      64,417546000 seconds user
+       0,159487000 seconds sys
+
+
+[ 12:43:13 ]
+Ejecucion 10
+
+ Performance counter stats for './bin/main DSC_2337_baw test 10':
+
+         73.435,33 msec task-clock:u              #    7,298 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.957      page-faults:u             #  217,293 /sec
+   273.676.586.008      cycles:u                  #    3,727 GHz
+   786.522.826.026      instructions:u            #    2,87  insn per cycle
+    88.983.817.772      branches:u                #    1,212 G/sec
+        34.577.018      branch-misses:u           #    0,04% of all branches
+
+      10,062764475 seconds time elapsed
+
+      73,316354000 seconds user
+       0,129631000 seconds sys
+
+
+[ 12:43:23 ]
+Ejecucion 11
+
+ Performance counter stats for './bin/main DSC_2337_baw test 11':
+
+         81.645,71 msec task-clock:u              #    8,179 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.004      page-faults:u             #  196,018 /sec
+   302.628.080.194      cycles:u                  #    3,707 GHz
+   786.535.313.203      instructions:u            #    2,60  insn per cycle
+    88.987.383.565      branches:u                #    1,090 G/sec
+        44.973.018      branch-misses:u           #    0,05% of all branches
+
+       9,982199556 seconds time elapsed
+
+      81,486537000 seconds user
+       0,165950000 seconds sys
+
+
+[ 12:43:33 ]
+Ejecucion 12
+
+ Performance counter stats for './bin/main DSC_2337_baw test 12':
+
+         89.533,14 msec task-clock:u              #    9,076 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.982      page-faults:u             #  178,504 /sec
+   330.147.647.518      cycles:u                  #    3,687 GHz
+   786.547.095.544      instructions:u            #    2,38  insn per cycle
+    88.990.750.523      branches:u                #  993,942 M/sec
+        75.562.350      branch-misses:u           #    0,08% of all branches
+
+       9,864991823 seconds time elapsed
+
+      89,311125000 seconds user
+       0,222278000 seconds sys
+
+
+[ 12:43:43 ]
+Ejecucion 13
+
+ Performance counter stats for './bin/main DSC_2337_baw test 13':
+
+         89.526,91 msec task-clock:u              #    9,074 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.978      page-faults:u             #  178,471 /sec
+   329.879.788.614      cycles:u                  #    3,685 GHz
+   786.547.362.398      instructions:u            #    2,38  insn per cycle
+    88.990.826.564      branches:u                #  994,012 M/sec
+        66.894.188      branch-misses:u           #    0,08% of all branches
+
+       9,866069317 seconds time elapsed
+
+      89,299974000 seconds user
+       0,221746000 seconds sys
+
+
+[ 12:43:53 ]
+Ejecucion 14
+
+ Performance counter stats for './bin/main DSC_2337_baw test 14':
+
+         89.452,16 msec task-clock:u              #    9,088 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.980      page-faults:u             #  178,643 /sec
+   329.750.793.430      cycles:u                  #    3,686 GHz
+   786.547.134.201      instructions:u            #    2,39  insn per cycle
+    88.990.761.119      branches:u                #  994,842 M/sec
+        44.361.145      branch-misses:u           #    0,05% of all branches
+
+       9,842671957 seconds time elapsed
+
+      89,259084000 seconds user
+       0,195864000 seconds sys
+
+
+[ 12:44:03 ]
+Ejecucion 15
+
+ Performance counter stats for './bin/main DSC_2337_baw test 15':
+
+         89.855,09 msec task-clock:u              #    9,070 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.980      page-faults:u             #  177,842 /sec
+   330.783.657.292      cycles:u                  #    3,681 GHz
+   786.547.738.571      instructions:u            #    2,38  insn per cycle
+    88.990.934.532      branches:u                #  990,383 M/sec
+        75.409.633      branch-misses:u           #    0,08% of all branches
+
+       9,906535799 seconds time elapsed
+
+      89,647500000 seconds user
+       0,209379000 seconds sys
+
+
+[ 12:44:13 ]
+Ejecucion 16
+
+ Performance counter stats for './bin/main DSC_2337_baw test 16':
+
+         89.498,94 msec task-clock:u              #    9,070 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.983      page-faults:u             #  178,583 /sec
+   329.734.291.471      cycles:u                  #    3,684 GHz
+   786.546.949.719      instructions:u            #    2,39  insn per cycle
+    88.990.708.706      branches:u                #  994,321 M/sec
+        54.519.870      branch-misses:u           #    0,06% of all branches
+
+       9,867576875 seconds time elapsed
+
+      89,337463000 seconds user
+       0,166040000 seconds sys
+
+
+[ 12:44:22 ]
+Ejecucion 17
+
+ Performance counter stats for './bin/main DSC_2337_baw test 17':
+
+         89.606,99 msec task-clock:u              #    9,075 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.982      page-faults:u             #  178,357 /sec
+   329.987.192.114      cycles:u                  #    3,683 GHz
+   786.546.755.066      instructions:u            #    2,38  insn per cycle
+    88.990.653.954      branches:u                #  993,122 M/sec
+        57.293.819      branch-misses:u           #    0,06% of all branches
+
+       9,873693417 seconds time elapsed
+
+      89,385508000 seconds user
+       0,209028000 seconds sys
+
+
+[ 12:44:32 ]
+Ejecucion 18
+
+ Performance counter stats for './bin/main DSC_2337_baw test 18':
+
+         89.920,75 msec task-clock:u              #    9,063 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.983      page-faults:u             #  177,745 /sec
+   331.248.681.398      cycles:u                  #    3,684 GHz
+   786.547.962.423      instructions:u            #    2,37  insn per cycle
+    88.990.998.819      branches:u                #  989,660 M/sec
+        69.687.556      branch-misses:u           #    0,08% of all branches
+
+       9,922237068 seconds time elapsed
+
+      89,700565000 seconds user
+       0,218965000 seconds sys
+
+
+[ 12:44:42 ]
+Ejecucion 19
+
+ Performance counter stats for './bin/main DSC_2337_baw test 19':
+
+         89.344,30 msec task-clock:u              #    9,073 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            15.980      page-faults:u             #  178,859 /sec
+   329.141.392.470      cycles:u                  #    3,684 GHz
+   786.538.600.172      instructions:u            #    2,39  insn per cycle
+    88.988.323.803      branches:u                #  996,016 M/sec
+        54.145.245      branch-misses:u           #    0,06% of all branches
+
+       9,847813936 seconds time elapsed
+
+      89,167927000 seconds user
+       0,176017000 seconds sys
+
+
+[ 12:44:52 ]
+Ejecucion 20
+
+ Performance counter stats for './bin/main DSC_2337_baw test 20':
+
+         80.853,13 msec task-clock:u              #    8,186 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.005      page-faults:u             #  197,952 /sec
+   298.773.725.875      cycles:u                  #    3,695 GHz
+   786.535.052.488      instructions:u            #    2,63  insn per cycle
+    88.987.309.174      branches:u                #    1,101 G/sec
+        75.337.638      branch-misses:u           #    0,08% of all branches
+
+       9,876507290 seconds time elapsed
+
+      80,689630000 seconds user
+       0,169266000 seconds sys
+
+
+[ 12:45:02 ]
+Ejecucion 21
+
+ Performance counter stats for './bin/main DSC_2337_baw test 21':
+
+         81.027,39 msec task-clock:u              #    8,182 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.004      page-faults:u             #  197,513 /sec
+   299.008.742.975      cycles:u                  #    3,690 GHz
+   786.534.998.898      instructions:u            #    2,63  insn per cycle
+    88.987.294.236      branches:u                #    1,098 G/sec
+        85.979.310      branch-misses:u           #    0,10% of all branches
+
+       9,903288045 seconds time elapsed
+
+      80,812129000 seconds user
+       0,208664000 seconds sys
+
+
+[ 12:45:12 ]
+Ejecucion 22
+
+ Performance counter stats for './bin/main DSC_2337_baw test 22':
+
+         81.566,26 msec task-clock:u              #    8,174 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.006      page-faults:u             #  196,233 /sec
+   301.785.052.161      cycles:u                  #    3,700 GHz
+   786.535.245.599      instructions:u            #    2,61  insn per cycle
+    88.987.364.857      branches:u                #    1,091 G/sec
+        42.292.019      branch-misses:u           #    0,05% of all branches
+
+       9,978354577 seconds time elapsed
+
+      81,398337000 seconds user
+       0,172516000 seconds sys
+
+
+[ 12:45:22 ]
+Ejecucion 23
+
+ Performance counter stats for './bin/main DSC_2337_baw test 23':
+
+         80.817,66 msec task-clock:u              #    8,168 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.002      page-faults:u             #  198,001 /sec
+   298.511.210.849      cycles:u                  #    3,694 GHz
+   786.535.037.278      instructions:u            #    2,63  insn per cycle
+    88.987.304.629      branches:u                #    1,101 G/sec
+        73.991.903      branch-misses:u           #    0,08% of all branches
+
+       9,894912313 seconds time elapsed
+
+      80,682205000 seconds user
+       0,142842000 seconds sys
+
+
+[ 12:45:32 ]
+Ejecucion 24
+
+ Performance counter stats for './bin/main DSC_2337_baw test 24':
+
+         81.612,49 msec task-clock:u              #    8,172 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.005      page-faults:u             #  196,110 /sec
+   302.002.792.667      cycles:u                  #    3,700 GHz
+   786.535.204.597      instructions:u            #    2,60  insn per cycle
+    88.987.353.286      branches:u                #    1,090 G/sec
+        47.928.449      branch-misses:u           #    0,05% of all branches
+
+       9,986401732 seconds time elapsed
+
+      81,463983000 seconds user
+       0,149441000 seconds sys
+
+
+[ 12:45:42 ]
+Ejecucion 25
+
+ Performance counter stats for './bin/main DSC_2337_baw test 25':
+
+         81.774,79 msec task-clock:u              #    8,177 CPUs utilized
+                 0      context-switches:u        #    0,000 /sec
+                 0      cpu-migrations:u          #    0,000 /sec
+            16.004      page-faults:u             #  195,708 /sec
+   302.254.864.490      cycles:u                  #    3,696 GHz
+   786.534.976.939      instructions:u            #    2,60  insn per cycle
+    88.987.288.110      branches:u                #    1,088 G/sec
+        51.480.138      branch-misses:u           #    0,06% of all branches
+
+      10,000934083 seconds time elapsed
+
+      81,560681000 seconds user
+       0,212141000 seconds sys
+[ 12:45:52 ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
