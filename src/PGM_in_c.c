@@ -1,20 +1,11 @@
 // Codigo extraido de : https://www.geeksforgeeks.org/how-to-read-a-pgmb-format-image-in-c/
 // C Program to read a PGMB image
+#include "../include/recursos.h"
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-// image data
-typedef struct PGMImage 
-{
-  char tipo_pgm[3];
-  unsigned char** matriz;
-  uint ancho;
-  uint alto;
-  unsigned short int valor_max;
-} PGMImage;
 
 void ignorarcomentarios(FILE* fp)
 {
@@ -106,7 +97,7 @@ void imprimir_detalles_de_imagen(PGMImage* pgm, const char* ruta)
   fclose(archivo_pgm);
 }
 
-bool crear_imagen(PGMImage* pgm, const char* ruta)
+void crear_imagen(PGMImage* pgm, const char* ruta)
 {
   FILE* archivo_pgm = fopen(ruta, "wb");
 
@@ -148,7 +139,5 @@ bool crear_imagen(PGMImage* pgm, const char* ruta)
     }
   }
   fclose(archivo_pgm);
-
-  return true;
 }
 
