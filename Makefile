@@ -26,4 +26,4 @@ $(PATHout)recursos.o: $(PATHrec)recursos.c $(PATHrec)PGM_in_c.c
 
 
 clean:
-	rm -f -d $(PATHbin)* $(PATHbin) $(PATHout)* $(PATHout) 
+	rm -f -d $(PATHbin)* $(PATHbin) $(PATHout)* $(PATHout) $(PATHlib)* $(PATHlib) 
