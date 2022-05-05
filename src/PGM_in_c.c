@@ -60,7 +60,10 @@ void abrir_imagen_PGM(PGMImage* pgm, const char* path)
   if (pgm->tipo_pgm[1] == '5') 
   {
     fgetc(archivo_pgm);
-
+#pragma omp parallel 
+  {
+#pragma omp for ordered 
+ 
     for (uint i = 0; i < pgm->alto; i++)
     {
       pgm->matriz[i] = malloc(pgm->ancho * sizeof(unsigned char));
@@ -70,9 +73,10 @@ void abrir_imagen_PGM(PGMImage* pgm, const char* path)
         fprintf(stderr, "error en el malloc\n");
         exit(1);
       }
-
+#pragma omp ordered
       fread(pgm->matriz[i], sizeof(unsigned char), pgm->ancho, archivo_pgm);
     }
+  }
   }
 
   fclose(archivo_pgm);
@@ -131,14 +135,19 @@ bool crear_imagen(PGMImage* pgm, const char* ruta)
 
   unsigned char temp;
   unsigned char** imagen = pgm->matriz;
-  for (uint i = 0; i < pgm->alto; i++) {
-    for (uint j = 0; j < pgm->ancho; j++) {
-      temp = (unsigned char)(imagen[i][j]);
-
-      fprintf(archivo_pgm, "%c", temp);
+#pragma omp parallel 
+  {
+#pragma omp for ordered collapse(2)
+    for (uint i = 0; i < pgm->alto; i++) 
+    {
+      for (uint j = 0; j < pgm->ancho; j++) 
+      {
+        temp = (unsigned char)(imagen[i][j]);
+#pragma omp ordered
+        fprintf(archivo_pgm, "%c", temp);
+      }
     }
   }
-
   fclose(archivo_pgm);
 
   return true;

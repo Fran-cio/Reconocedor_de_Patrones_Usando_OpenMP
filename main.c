@@ -1,4 +1,5 @@
 #include "./src/PGM_in_c.c"
+#include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +14,8 @@ uint ancho_base,
 uint x_min,
      y_min;
 
+int num_threads;
+
 void dibujar_cuadrado(uint x, uint y, uint alto, uint ancho, 
     unsigned char **matrix);
 
@@ -23,18 +26,27 @@ unsigned char** computar(PGMImage* str_imagen_base, PGMImage* str_imagen_cortada
 
 int main (int argc, char *argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     printf("Falto el nombre de las imagenes");
     exit(EXIT_FAILURE);
   }
+
+  if(atoi(argv[3])==0)
+  {
+    printf("Ingrese un numero de hilos valido");
+    exit(EXIT_FAILURE);
+  }
+
+  omp_set_num_threads(atoi(argv[3]));
+  omp_set_dynamic(1);
+  num_threads = atoi(argv[3]);
 
   char* ruta  = "./img/";
   char* imagen_base = malloc(32);
   imagen_base = strcpy(imagen_base,ruta);
   imagen_base = strcat(imagen_base, argv[1]);
   imagen_base = strcat(imagen_base, ".pgm");
-
 
   char* imagen_cortada = malloc(32);
   imagen_cortada = strcpy(imagen_cortada, ruta);
@@ -90,20 +102,25 @@ PGMImage* generar_estructura(uint ancho, uint alto, char* tipo,
 
 void dibujar_cuadrado(uint x, uint y, uint alto, uint ancho, unsigned char **matrix)
 {
-  for (uint i=x; i < (x + alto) ; i++)
+#pragma omp parallel 
   {
-    matrix[i][y] = 0;
-    matrix[i][y + 1] = 0;
-    matrix[i][y + ancho] = 0;
-    matrix[i][y - 1 + ancho] = 0;
-  }
+#pragma omp for 
+    for (uint i=x; i < (x + alto) ; i++)
+    {
+      matrix[i][y] = 0;
+      matrix[i][y + 1] = 0;
+      matrix[i][y + ancho] = 0;
+      matrix[i][y - 1 + ancho] = 0;
+    }
 
-  for(uint j=y; j < (y + ancho); j++)
-  {
-    matrix[x][j] = 0;
-    matrix[x + 1][j] = 0;
-    matrix[x - 2 + alto][j] = 0;
-    matrix[x - 1 + alto][j] = 0;
+#pragma omp for
+    for(uint j=y; j < (y + ancho); j++)
+    {
+      matrix[x][j] = 0;
+      matrix[x + 1][j] = 0;
+      matrix[x - 2 + alto][j] = 0;
+      matrix[x - 1 + alto][j] = 0;
+    }
   }
 }
 
@@ -112,11 +129,16 @@ unsigned char** generar_y_llenar_matriz(uint alto, uint ancho,
 {
   unsigned char **matriz_generada = malloc(alto * sizeof(unsigned char*));
 
-  for(uint i=0;i<alto;i++)
+  uint i,j;
+#pragma omp parallel 
   {
-    matriz_generada[i] = malloc(ancho * sizeof(unsigned char));
-    for(uint j=0;j<ancho;j++)
-      matriz_generada[i][j] = relleno;
+#pragma omp for private(i,j) 
+    for(i=0;i<alto;i++)
+    {
+      matriz_generada[i] = malloc(ancho * sizeof(unsigned char));
+      for(j=0;j<ancho;j++)
+        matriz_generada[i][j] = relleno;
+    }
   }
 
   return matriz_generada;
@@ -138,22 +160,27 @@ unsigned char** computar(PGMImage* str_imagen_base, PGMImage* str_imagen_cortada
   unsigned char **matx_distancia_char = generar_y_llenar_matriz(alto_base,
       ancho_base, 0); 
 
-  for(uint i=0;i<alto_base;i++)
+#pragma omp parallel 
   {
-    matx_distancia_char[i] = malloc(ancho_base * sizeof(unsigned char));
-    for(uint j=0;j<ancho_base;j++)
-      matx_distancia_char[i][j] = 0;
+#pragma omp for
+    for(uint i=0;i<alto_base;i++)
+    {
+      matx_distancia_char[i] = malloc(ancho_base * sizeof(unsigned char));
+      memset(matx_distancia_char[i], 0, ancho_base * sizeof(unsigned char));
+    }
   }
 
-  for (uint i= 0; i <= (alto_base - alto_cortada ) ; i++) 
+uint i,j,k,l,temp;
+#pragma omp parallel for private(i, j, k, l, temp) num_threads(num_threads) schedule(dynamic)
+  for (i= 0; i <= (alto_base - alto_cortada ) ; i++) 
   {
-    for (uint j=0; j <= (ancho_base - ancho_cortada ) ; j++)
+    for (j=0; j <= (ancho_base - ancho_cortada ) ; j++)
     {
-      uint temp = 0;
-      for (uint k=0; k < alto_cortada ; k++)
+      temp = 0;
+      for (k=0; k < alto_cortada ; k++)
       {
         uint x = i + k;
-        for (uint l=0; l <  ancho_cortada; l++)
+        for (l=0; l <  ancho_cortada; l++)
         {
           uint y = j + l;
 
@@ -169,6 +196,7 @@ unsigned char** computar(PGMImage* str_imagen_base, PGMImage* str_imagen_cortada
         x_min=i;
         y_min=j;
       }
+
       printf("\r ---- %.2f%c ----",((float)i*100/(float)(alto_base - alto_cortada)),'%');
       matx_distancia_char[i + (alto_cortada/2)][j + (ancho_cortada/2)] = 
         (unsigned char)(temp/valor_max);
