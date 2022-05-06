@@ -1,4 +1,4 @@
---------------------------------------------Compilando lab3------------------------------
+--------------------------------------------Compilando lab4------------------------------
 make: No se hace nada para 'lab4'.
 ------------------------------------------Ejecutando programa----------------------------
 Los nombres de las imagenes se da por hecho que son formato .pgm y estan en el directorio ./img/

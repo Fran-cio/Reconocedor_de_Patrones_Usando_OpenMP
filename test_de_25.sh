@@ -1,5 +1,5 @@
 #!/bin/sh
-echo "--------------------------------------------Compilando lab3------------------------------"
+echo "--------------------------------------------Compilando lab4------------------------------"
 make 
 echo "------------------------------------------Ejecutando programa----------------------------"
 echo "Los nombres de las imagenes se da por hecho que son formato .pgm y estan en el directorio ./img/"
